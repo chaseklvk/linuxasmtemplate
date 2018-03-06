@@ -1,5 +1,6 @@
 #!/bin/bash
-rm *.o
-rm *.lst
+rm $1.o
+rm $1.lst
+rm $1
 nasm -g -f elf64 -F dwarf $1.asm -l $1.lst
-ld $1.o -o $1
+ld $1.o -o $1 ./functions64.o
