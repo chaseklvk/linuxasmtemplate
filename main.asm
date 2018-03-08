@@ -2,45 +2,61 @@
 
 section .data
   ;Initialized data definitions go here
-  aName db  "Abraham Lincoln", 0h
-  nameSize EQU ($-aName) - 1
+   prompt_str db "Please input an integer: ", 0h
+   reversed_str db "Here is the reversed number list: ", 0h
+   
 section .bss
   ;Uninitialized memory reservations go here
-
+  buffer resq  3
 section .text
+
 global _start
 _start:
   nop
-  ; Put program code here
-  push aName
+  push prompt_str
   call PrintString
   call Printendl
-
-  mov rcx, nameSize
-  mov rsi, 0
   
-  L1: 
-    movzx rax, BYTE [aName + rsi]
-    push rax
-    inc rsi
+  mov rcx, 3
+  L1:
+      call InputUInt
+      push rax
   Loop L1
+ 
+ mov rcx, 3
+ mov rdi, buffer
 
-  mov rcx, nameSize
-  mov rsi, 0
-  L2: 
+ L2:
     pop rax
-    mov [aName + rsi], al
-    inc rsi
-  Loop L2
+    mov [rdi], rax
+    
+    add rdi, 8h
+ Loop L2
+ 
+ push reversed_str
+ call PrintString
+ call PrintSpace
+ 
+ mov rcx, 3
+ mov rdi, 0
 
-  push aName
-  call PrintString
-  call Printendl
-  ; End program code here
+ L3: 
+  push rcx
+
+  mov rax, [buffer + rdi]
+  push rax
+  call Print64bitNumDecimal
+  pop rcx
+
+  add rdi, 8
+ Loop L3
+
+ call Printendl
+  
+  ;Code starts here
+    
+  ;Code ends here
   nop
-
-; Exit the program Linux Legally!
-Exit:
-  mov rax,  60
-  mov rdi,  0
-  syscall
+  mov rax,60 ; Exit system call value
+  mov rdi,0 ; Exit return code
+  syscall ; Call the kernel
