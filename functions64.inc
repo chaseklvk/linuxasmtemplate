@@ -155,13 +155,15 @@ extern		PrintRegisters
 ;	Address of keyboard buffer
 ;	Size of the keyboard buffer
 ;Return:
-;	Rax will contain the usigned ingeter
-;	Carry flag will be set if invalid integer was input
+;	Rax will contain the number of characters the user input
+;Example Usage:
+;	push	readbuffer
+;	push	readbuffer.len
+;	call	ReadText
 extern		ReadText
 
 ;Input UnSigned Int 
-;This function will let the user input a string.  It will then convert the ASCII 
-;string into a QWORD and return that value in the RAX register.
+;This function will let the user input an integer returned into the RAX register
 ;Arguments: None
 ;Return: 	rax will contain the usigned ingeter
 ;			Carry flag will be set if invalid integer was input
@@ -173,9 +175,8 @@ extern		ReadText
 extern		InputUInt
 
 ;Input Signed Int 
-;This function will let the user input a string, then it will check it to make sure it
-;is a positive integer.  It will then convert the ASCII string into a DWORD and return
-;that value in the EAX register.
+;This function will let the user input a signed integer and put the value 
+;into the RAX register.
 ;Arguments: None
 ;Return: 	eax will contain the usigned ingeter
 ;			Carry flag will be set if invalid integer was input
@@ -200,3 +201,12 @@ extern		InputSInt
 ;	call	ReadTextWPrompt
 extern		ReadTextWPrompt
 
+;Print a Quad-word floating point number
+;Stack Contents:
+;	The floating point number to print
+;Return:
+;	None
+;Example Usage:
+;	push	numberToPrint
+;	call	PrintQWFloat
+extern		PrintQWFloat
