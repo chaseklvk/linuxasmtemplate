@@ -99,7 +99,6 @@ calculateVariance:
     mov rbx, rax                                    ; Move the same value into rbx
     imul rbx                                        ; Multiply rax by rbx effectively squaring rax, result in rax
 
-
     add r8, rax                                     ; Add to r8, the value in rax
 
     add rsi, 8                                      ; Increment to the next value
@@ -109,7 +108,7 @@ calculateVariance:
   ; Divide by numElements to calculate variance
   mov rax, r8                                       ; Move sum into rax
   cqo                                               ; Sign extend RAX to RDX
-  mov rcx, SampleArray.numElements                  ; Move number of elements into rdx
+  mov rcx, SampleArray.numElements                  ; Move number of elements into rcx
   idiv rcx                                          ; divide by rcx, result in rax
 
   ret
