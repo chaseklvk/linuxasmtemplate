@@ -37,18 +37,18 @@ _start:
   mov rsi, SampleArray
 
   printLoop:
-    push QWORD [rsi]
-    call Print64bitSNumDecimal
+    push QWORD [rsi]                              ; Push value in rsi to stack
+    call Print64bitSNumDecimal                    ; Print the value
 
-    cmp rcx, 1
-    jbe skipComma
+    cmp rcx, 1                                    ; Check if our counter is at 1
+    jbe skipComma                                 ; If not, skip printing the comma
 
-    call PrintComma
-    call PrintSpace
+    call PrintComma                               ; Print comma
+    call PrintSpace                               ; Print space
 
     skipComma:
 
-    add rsi, 8
+    add rsi, 8                                    ; Increment rsi to next number
   Loop printLoop
 
   call Printendl
