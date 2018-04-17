@@ -1,3 +1,17 @@
+; Program Description: This program will calculate and print the variance of an array of numbers
+
+; Author: Chase Zimmerman 
+
+; Creation Date: 4/17/18
+
+; Revisions: N/A
+
+; Date: N/A             Modified by: N/A
+
+; Operating System: Ubuntu
+
+; IDE/Compiler: VSCode/NASM
+
 %include "functions64.inc"
 
 section .data
@@ -129,7 +143,7 @@ findMean:
 
   ; Now rax contains our sum
   cqo                                                ; Sign extend RAX to RDX
-  mov rcx, SampleArray.numElements                   ; Mov number to divide into rcx
+  mov rcx, SampleArray.numElements                   ; Move number to divide into rcx
   idiv rcx                                           ; Divide by rcx, result in rax
 
   ret
