@@ -1,3 +1,5 @@
 main
 main.lst
 main.o
+stats.o
+stats.lst
