@@ -1,3 +1,17 @@
+; Program Description: This project will copy a and its contents to a specified location using heap memory.
+
+; Author: Chase Zimmerman
+
+; Creation Date: 5/8/18
+
+; Revisions: N/A
+
+; Date: N/A              Modified by: N/A
+
+; Operating System: Ubuntu
+
+; IDE/Compiler: VSCode/NASM
+
 %include "functions64.inc"
 
 section .data
@@ -8,6 +22,9 @@ section .data
   outputFileError     db  "Error opening output file. Verify your path is correct.", 0x0
   copyMessage1        db  "Copying ", 0x0
   copyMessage2        db  " to ", 0x0
+  totalBytesMessage   db  "Total bytes copied: ", 0x0
+
+  ; Byte Counter
   totalBytes          dq  0
 section .bss
   ;Uninitialized memory reservations go here
@@ -47,7 +64,7 @@ _start:
   mov rax, 0x2                                                      ; Set the function
   mov rdi, [inputFileAddress]                                       ; Move input file location to rdi
   mov rsi, 0x0                                                      ; Move 0 to rsi
-  mov rdx, 0x0                                                      ; Move 0 to rdx, read
+  mov rdx, 0x2                                                      ; Move 2 to rdx, read/write
   syscall                                                           ; Call Kernel
 
   cmp rax, 0
@@ -66,7 +83,7 @@ _start:
   mov [inputFileDescriptor], rax                                    ; First save file descriptor of input file
 
   ; Attempt to open/create the output file
-  mov rax, 0x85                                                     ; Set the function
+  mov rax, 0x55                                                     ; Set the function 0x55
   mov rdi, [outputFileAddress]                                      ; Move output file location to rdi
   mov rsi, 777o                                                     ; Set file permissions
   syscall                                                           ; Call the Kernel
@@ -124,10 +141,7 @@ _start:
     mov rdx, 0x0ffff                                                 ; Set the size of the input buffer
     syscall                                                          ; Call the Kernel
 
-    push rax                                                          ; Save number of bytes read
-
-    ; TODO: Why is data not being written to output file?
-    ; TODO: Why is the data in input being printed to screen?
+    push rax                                                         ; Save number of bytes read
 
     ; Write the data in the buffer to the output file
     mov rax, 0x1                                                     ; Set the function
@@ -166,6 +180,8 @@ _start:
   mov rdi, [outputFileDescriptor]
   syscall
 
+  push totalBytesMessage
+  call PrintString
   push QWORD [totalBytes]                                             ; Push total bytes
   call Print64bitNumDecimal                                           ; Print total bytes
   call Printendl

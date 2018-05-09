@@ -1,3 +1,6 @@
 main
 main.lst
 main.o
+text.txt
+text1.txt
+*.iso
